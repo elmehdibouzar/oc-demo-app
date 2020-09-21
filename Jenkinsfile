@@ -42,23 +42,5 @@ pipeline {
         }
       }
     }
-    stage('Create DEV') {
-      when {
-        expression {
-          openshift.withCluster() {
-            return !openshift.selector('dc', 'mapit-develop').exists()
-          }
-        }
-      }
-    }
-    stage('Promote STAGE') {
-      steps {
-        script {
-          openshift.withCluster() {
-            openshift.tag("mapit:dev", "mapit:stage")
-          }
-        }
-      }
-    }
   }
 }
