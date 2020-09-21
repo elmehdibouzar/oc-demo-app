@@ -50,35 +50,12 @@ pipeline {
           }
         }
       }
-      steps {
-        script {
-          openshift.withCluster() {
-            openshift.newApp("mapit:latest", "--name=mapit-dev").narrow('svc').expose()
-          }
-        }
-      }
     }
     stage('Promote STAGE') {
       steps {
         script {
           openshift.withCluster() {
             openshift.tag("mapit:dev", "mapit:stage")
-          }
-        }
-      }
-    }
-    stage('Create STAGE') {
-      when {
-        expression {
-          openshift.withCluster() {
-            return !openshift.selector('dc', 'mapit-stage').exists()
-          }
-        }
-      }
-      steps {
-        script {
-          openshift.withCluster() {
-            openshift.newApp("mapit:stage", "--name=mapit-stage").narrow('svc').expose()
           }
         }
       }
