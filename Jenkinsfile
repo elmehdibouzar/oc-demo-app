@@ -46,7 +46,7 @@ pipeline {
       when {
         expression {
           openshift.withCluster() {
-            return !openshift.selector('dc', 'mapit-dev').exists()
+            return !openshift.selector('dc', 'mapit-develop').exists()
           }
         }
       }
